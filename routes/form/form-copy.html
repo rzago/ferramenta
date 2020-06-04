@@ -1,0 +1,129 @@
+<div class="card background-simulador bg-dark-simulador text-white" style="background-image:url(img/blur-bright-bulbs-131023.jpg);min-height:640px;background-size:cover;">
+    <div class="container" style="background-color:#b5b5b5;margin-top:1rem;">
+        <h1 style="color:black">Simulador de Consumo de Energia</h1>
+
+        <h3>1º Passo: Selecione os cômodos da sua casa e acrescente os equipamentos em cada um</h3>
+        <div style="margin-bottom:2rem;margin-top:2rem;">
+            <ul>
+                <li class="comodos" ng-repeat="item in Comodos">
+                    <a class="img-comodos" href="" ng-click="Comodo = item.nome ;toggleModal();">
+                        <img class="img-comodos-src" ng-src="img/{{item.img}}.png">
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <modal-dialog show="modalShown" width="auto" height="auto">
+            <h1>Comodo: {{Comodo}}</h1>
+            <form name="EquipForm">
+                <label>Adiciona os eletrodomesticos:
+                    <select ng-model="Eletrodomestico" ng-options="x.Equipamento for x in equipamentos" ng-click="Item.EquipId = Eletrodomestico.id; Item.Equipamento = Eletrodomestico.Equipamento; Item.Potencia = Eletrodomestico.Potencia">
+                    </select>
+                </label>
+                <label>Quantidade: <input name="Quantidade" type="number" ng-model="Item.Quantidade"></label>
+                <label>Insira a potência desse equipamento: <input name="Potencia" id="pot{{$index}}" type="" ng-model="Item.Potencia"></label>
+                <br>
+                <label>O aparelho fica ligado o dia todo? <input type="checkbox" value="yes">Sim</label>
+                <p>Adicione o(s) periodo(s) de uso:</p>
+                <input type="radio" ng-model="" ng-repeat="(key,value) in Horario" ng-value="value">{{value}}
+                <br>
+                <label>Quanto tempo de uso:<input type="number"></label>
+                <br>
+                <label>Esse consumo se repete para todos os meses?<input type="checkbox">Sim</label>
+                <button ng-click="addEquip()">Adicionar</button>
+            </form>
+            {{Item}}
+            <ul>
+                <li class="equip-list" style="display:inline" ng-repeat="item in ListadeEquipamentos">
+                    <button ng-click="deleteEquip($index)">X</button>
+                    <span>Id:{{item.EquipId}}</span>
+                    <span>Qntdade:{{item.Quantidade}}</span>
+                    <span>Nome:{{item.Equipamento}}</span>
+                    <span>Pot:{{item.Potencia}}</span>
+                </li>
+            </ul>
+
+        </modal-dialog>
+
+
+        <form>
+                <div class="form-row">
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="First name">
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Last name">
+                  </div>
+                </div>
+              </form>
+
+
+
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h1>Cômodo: {{Comodo}}</h1>
+                <form name="EquipForm">
+                    <label>Adiciona os eletrodomesticos:
+                        <select ng-model="Eletrodomestico" ng-options="x.Equipamento for x in equipamentos" ng-click="Item.EquipId = Eletrodomestico.id; Item.Equipamento = Eletrodomestico.Equipamento; Item.Potencia = Eletrodomestico.Potencia">
+                        </select>
+                    </label>
+                    <label>Quantidade: <input name="Quantidade" type="number" ng-model="Item.Quantidade"></label>
+                    <label>Insira a potência desse equipamento: <input name="Potencia" id="pot{{$index}}" type=""
+                            ng-model="Item.Potencia"></label>
+                    <br>
+                    <label>O aparelho fica ligado o dia todo? <input type="checkbox" value="yes">Sim</label>
+                    <p>Adicione o(s) periodo(s) de uso:</p>
+                    <input type="radio" ng-value="value">{{value}}
+                    <br>
+                    <label>Quanto tempo de uso:<input type="number"></label>
+                    <br>
+                    <label>Esse consumo se repete para todos os meses?<input type="checkbox">Sim</label>
+                    <button ng-click="addEquip()">Adicionar</button>
+                </form>
+                {{Item}}
+                <ul>
+                    <li class="equip-list" style="display:inline" ng-repeat="item in ListadeEquipamentos">
+                        <button ng-click="deleteEquip($index)">X</button>
+                        <span>Id:{{item.EquipId}}</span>
+                        <span>Qntdade:{{item.Quantidade}}</span>
+                        <span>Nome:{{item.Equipamento}}</span>
+                        <span>Pot:{{item.Potencia}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

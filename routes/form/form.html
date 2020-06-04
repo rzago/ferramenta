@@ -1,0 +1,32 @@
+<div class="card background-simulador bg-dark-simulador text-white" style="background-image:url(img/blur-bright-bulbs-131023.jpg);min-height:640px;background-size:cover;">
+    <div class="container" style="background-color:#b5b5b5;margin-top:1rem;">
+        <h1 style="color:black">Simulador de Consumo de Energia</h1>
+
+                <h3>1º Passo: Selecione os cômodos da sua casa e acrescente os equipamentos em cada um</h3>
+                <div style="margin-bottom:2rem;margin-top:2rem;">
+                    <ul>
+                        <li class="comodos" ng-repeat="item in Comodos">
+                            <a class="img-comodos" href="" ng-click="form()">
+                                <img class="img-comodos-src" ng-src="img/{{item.img}}.png">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div ng-show="display">
+
+                    <form>
+                        <label>Selecione o equipamento</label>
+                        <select ng-model="equipSelecionado" ng-options="x.Equipamento for x in equipamentos">
+                            <!--option id="" ng-repeat="eq in equipamentos" ng-value="eq.Equipamento">{{eq.Equipamento}}</option-->
+                        </select>
+                        <br>
+                        <label>Insira a potência desse equipamento</label>
+                        <input type="text" ng-model="equipSelecionado.Potencia">
+                    </form>
+                    
+                    <p>{{equipSelecionado}}</p>
+
+    </div>
+
+</div>

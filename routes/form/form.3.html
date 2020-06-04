@@ -1,0 +1,303 @@
+<div class="" style="background-color:#e5e5e5;">
+    <div class="container">
+        <h1 style="color:black;padding-top:1rem;">Simulador de Consumo de Energia</h1>
+
+        <h3>1º Passo: Selecione os cômodos da sua casa e acrescente os equipamentos em cada um</h3>
+
+        <div style="margin-bottom:2rem;margin-top:2rem;">
+            <ul>
+                <li class="comodos" ng-repeat="c in Comodos" ng-click="toggleModalC();">
+                    <div>
+                        <h5 class="card-title" style="text-align:center">{{c.nome}}</h5>
+                        <a class="img-comodos" href="" ng-click="item.nome = c.nome">
+                            <img class="img-comodos-src" ng-src="img/{{c.img}}.png">
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <modal-customizado dis="ModalC"></modal-customizado>
+
+
+        <form name="equipForm" novalidate style="padding-top:1rem;padding-bottom:1rem;">
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="">Adicione os eletrodomesticos:</label>
+                    <select name="eletrodomesticos" class="form-control" ng-options="x.Equipamento for x in equipamentos"
+                        ng-model="selected" ng-click="Item.Equipamento = selected.Equipamento ; Item.Potencia = selected.Potencia"
+                        ng-required="true">
+                    </select>
+                    <span ng-show="equipForm.eletrodomesticos.$invalid && equipForm.eletrodomesticos.$touched">Obrigatório</span>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="">Potência</label>
+                    <input class="form-control" id="" name="potencia" ng-model="Item.Potencia" ng-required="true">
+                    <span ng-show="equipForm.potencia.$invalid && equipForm.potencia.$touched">Obrigatório</span>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="">Quantidade</label>
+                    <input class="form-control" name="quantidade" type="number" ng-model="Item.Quantidade" ng-required="true">
+                    <span ng-show="equipForm.quantidade.$invalid && equipForm.quantidade.$touched">Obrigatório</span>
+                </div>
+            </div>
+            <div class="form-row" ng-show="equipForm.eletrodomesticos.$valid && equipForm.potencia.$valid && equipForm.quantidade.$valid">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Fica ligado o dia inteiro?</label>
+                    <div class="col-md-4 mb-3" ng-required="true">
+                        <label><input type="radio" ng-model="Item.DiaInteiroLigado.Ligado" ng-value="true">Sim</label>
+                        <label><input type="radio" ng-model="Item.DiaInteiroLigado.Ligado" ng-value="false">Não</label>
+                    </div>
+                </div>
+                <div class="form-group row" ng-show="!Item.DiaInteiroLigado.Ligado">
+                    <p>Adicione o(s) periodo(s) de uso:</p>
+                    <ul>
+                        <li>
+                            <label style="margin:0.5rem">
+                                <input type="checkbox" name="intermediario1" ng-model="Item.HorariodeUso[0].Periodo"
+                                    ng-true-value="true" ng-false-value="false"> 17h as 18h{{Item.Horario}}
+                            </label>
+                            <label ng-if="Item.HorariodeUso[0].Periodo">Tempo de uso:
+                                <input ng-model="Item.HorariodeUso[0].TempodeUso" type="number">
+                            </label>
+                            <label ng-if="Item.HorariodeUso[0].Periodo">
+                                <select name="tipoTempo" class="form-control" ng-options="t.TipodeTempo for t in TipoTempo"
+                                    ng-model="Item.HorariodeUso[0].Tipo" ng-required="true">
+                                </select>
+                            </label>
+                        </li>
+                        <li>
+                            <label style="margin:0.5rem">
+                                <input type="checkbox" name="ponta" ng-model="Item.HorariodeUso[1].Periodo"
+                                    ng-true-value="true" ng-false-value="false">18h
+                                as 21h
+                            </label>
+                            <label ng-if="Item.HorariodeUso[1].Periodo">Tempo de uso:
+                                <input ng-model="Item.HorariodeUso[1].TempodeUso" type="number">
+                            </label>
+                            <label ng-if="Item.HorariodeUso[1].Periodo">
+                                <select name="tipoTempo" class="form-control" ng-options="t.TipodeTempo for t in TipoTempo"
+                                    ng-model="Item.HorariodeUso[1].Tipo" ng-required="true">
+                                </select>
+                            </label>
+                        </li>
+                        <li>
+                            <label style="margin:0.5rem">
+                                <input type="checkbox" name="intermediario2" ng-model="Item.HorariodeUso[2].Periodo"
+                                    ng-true-value="true" ng-false-value="false">21h as 22h
+                            </label>
+                            <label ng-if="Item.HorariodeUso[2].Periodo">
+                                <input ng-model="Item.HorariodeUso[2].TempodeUso" type="number">
+                            </label>
+                            <label ng-if="Item.HorariodeUso[2].Periodo">
+                                <select name="tipoTempo" class="form-control" ng-options="t.TipodeTempo for t in TipoTempo"
+                                    ng-model="Item.HorariodeUso[2].Tipo" ng-required="true">
+                                </select>
+                            </label>
+                        </li>
+                        <li>
+                            <label style="margin:0.5rem">
+                                <input type="checkbox" name="foradeponta" ng-model="Item.HorariodeUso[3].Periodo"
+                                    ng-true-value="true" ng-false-value="false">22h as 17h
+                            </label>
+                            <label ng-if="Item.HorariodeUso[3].Periodo">
+                                <input ng-model="Item.HorariodeUso[3].TempodeUso" type="number">
+                            </label>
+                            <label ng-if="Item.HorariodeUso[3].Periodo">
+                                <select name="tipoTempo" class="form-control" ng-options="t.TipodeTempo for t in TipoTempo"
+                                    ng-model="Item.HorariodeUso[3].Tipo" ng-required="true">
+                                </select>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="col-sm-2 col-form-label">Esse consumo se repete para todos os meses?</label>
+                <div name="mesesUso" class="col-md-4 mb-3" ng-required="true">
+                    <label><input type="radio" ng-model="Item.RepeteTodosMeses" ng-value="true">Sim</label>
+                    <label><input type="radio" ng-model="Item.RepeteTodosMeses" ng-value="false">Não</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" ng-disabled="equipForm.$invalid" ng-click="CalculadoDeEnergia(Item);addEquip();">Adicionar</button>
+            </div>
+
+        </form>
+
+        <div style="padding-top:1rem;padding-bottom:1rem;">
+
+            <table class="table table-striped" style="background:#fff;">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Eletrodoméstico</th>
+                        <th scope="col">Potência</th>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col">Horario de Uso</th>
+                        <th scope="col">Energia</th>
+                        <th scope="col">Deletar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in ListadeEquipamentos">
+                        <th scope="row">{{$index}}</th>
+                        <td>{{item.Equipamento}}</td>
+                        <td>{{item.Potencia}}</td>
+                        <th>{{item.Quantidade}}</th>
+                        <td>
+                            <ul ng-if="item.DiaInteiroLigado.Ligado == false">
+                                <li ng-repeat="i in item.HorariodeUso" ng-if="i.Periodo">
+                                    <div>
+                                        <span>{{i.Nome}}:</span>
+                                        <span>{{i.TempodeUso}}</span>
+                                        <span>{{i.Tipo.TipodeTempo}}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul ng-if="item.DiaInteiroLigado.Ligado">
+                                <li>24h</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul ng-if="item.DiaInteiroLigado.Ligado == false">
+                                <li ng-repeat="e in item.Energia track by $index">
+                                    {{e}}kWh
+                                </li>
+                            </ul>
+                            <ul ng-if="item.DiaInteiroLigado.Ligado">
+                                <li>
+                                   {{item.Energia}}kWh
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" ng-click="deleteEquip($index)">X</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--ul>
+            <li class="equip-list" ng-repeat="item in ListadeEquipamentos">
+                <button class="btn btn-primary" ng-click="deleteEquip($index)">X</button>
+                <p>Comodo:{{item.Comodo}}</p>
+                <p>Eletrodomestico:{{item.Equipamento}}</p>
+                <p>Potencia:{{item.Potencia}}</p>
+                <p>Quantidade:{{item.Quantidade}}</p>
+                <p>Ligado:{{item.DiaInteiroLigado}}</p>
+                <p>HorariodeUso:{{item.HorariodeUso}}</p>
+                <p>Todos os meses: {{item.RepeteTodosMeses}} </p>
+            </li>
+        </ul-->
+
+    </div>
+
+
+
+</div>
+<!--div class="container">
+    <form>
+        <div class="form-row">
+            <div class="col-md-3 mb-3">
+                <label for="">Adicione os eletrodomesticos:</label>
+                <select name="eletrodomesticos" class="form-control" ng-options="x.Equipamento for x in equipamentos"
+                    ng-model="selected" ng-click="Item.Equipamento = selected.Equipamento ; Item.Potencia = selected.Potencia"
+                    ng-required="true">
+                </select>
+                <span ng-show="equipForm.eletrodomesticos.$invalid && equipForm.eletrodomesticos.$touched">Obrigatório</span>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="">Potência</label>
+                <input class="form-control" id="" name="potencia" ng-model="Item.Potencia" ng-required="true">
+                <span ng-show="equipForm.potencia.$invalid && equipForm.potencia.$touched">Obrigatório</span>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="">Quantidade</label>
+                <input class="form-control" name="quantidade" type="number" ng-model="Item.Quantidade" ng-required="true">
+                <span ng-show="equipForm.quantidade.$invalid && equipForm.quantidade.$touched">Obrigatório</span>
+            </div>
+        </div>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Fica ligado o dia inteiro?</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" ng-model="Item.DiaInteiroLigado" ng-value="true">
+                        <label class="form-check-label" for="">
+                            Sim
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" ng-model="Item.DiaInteiroLigado" ng-value="false">
+                        <label class="form-check-label" for="">
+                            Não
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group row">
+            <div class="col-sm-2">Adicione o(s) periodo(s) de uso:</div>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <label class="form-check-label" style="margin:0.5rem">
+                        <input class="form-check-input" type="checkbox" name="intermediario1" ng-model="Item.HorariodeUso[0].Intermediario1"
+                            ng-true-value="true" ng-false-value="false"> 17h as 18h{{Item.Horario}}
+                    </label>
+                    <label class="form-check-label" ng-if="Item.HorariodeUso[0].Intermediario1">Tempo de uso:
+                        <input class="form-control" ng-model="Item.HorariodeUso[0].TempodeUsoIntermediario1" type="number">
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" style="margin:0.5rem">
+                        <input class="form-check-input" type="checkbox" name="ponta" ng-model="Item.HorariodeUso[1].Ponta"
+                            ng-true-value="true" ng-false-value="false">18h
+                        as 21h
+                    </label>
+                    <label class="form-check-label" ng-if="Item.HorariodeUso[1].Ponta">Tempo de uso:
+                        <input class="form-control" ng-model="Item.HorariodeUso[1].TempodeUso" type="number">
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" style="margin:0.5rem">
+                        <input class="form-check-input" type="checkbox" name="intermediario2" ng-model="Item.HorariodeUso[2].Intermediario2"
+                            ng-true-value="true" ng-false-value="false">21h as 22h
+                    </label>
+                    <label class="form-check-label" ng-if="Item.HorariodeUso[2].Intermediario2">Tempo de uso:
+                        <input class="form-control" ng-model="Item.HorariodeUso[2].TempodeUso" type="number">
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" style="margin:0.5rem">
+                        <input class="form-check-input" type="checkbox" name="foradeponta" ng-model="Item.HorariodeUso[3].ForadePonta"
+                            ng-true-value="true" ng-false-value="false">22h as 17h
+                    </label>
+                    <label class="form-check-label" ng-if="Item.HorariodeUso[3].ForadePonta">Tempo de uso:
+                        <input class="form-control" ng-model="Item.HorariodeUso[3].TempodeUso" type="number">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Esse consumo se repete para todos os meses?</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" ng-model="Item.RepeteTodosMeses" ng-value="true">
+                        <label class="form-check-label" for="">
+                            Sim
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" ng-model="Item.RepeteTodosMeses" ng-value="false">
+                        <label class="form-check-label" for="">
+                            Não
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div-->

@@ -1,0 +1,8 @@
+[
+    { "id": 0, "nome": "Cozinha", "img": "fridge" },
+    { "id": 1, "nome": "Sala de Jantar", "img": "table" },
+    { "id": 2, "nome": "Sala de Estar", "img": "television" },
+    { "id": 3, "nome": "Banheiro", "img": "shower" },
+    { "id": 4, "nome": "Quarto", "img": "bed" },
+    { "id": 5, "nome": "Lavanderia", "img": "washing-machine" }
+]
